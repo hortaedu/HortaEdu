@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Projeto Horta Escolar - Educação Alimentar e Ambiental. Transformando educação em experiência prática.">
+<title>Projeto Horta Escolar - Educação Alimentar e Ambiental</title>
+<style>
+/* ===== RESET & VARIABLES ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-900: #1a3a15;
+  --green-800: #2d5a27;
+  --green-700: #3a7233;
+  --green-600: #4a8c3f;
+  --green-500: #5da84e;
+  --green-400: #7bc96f;
+  --green-300: #a3d99a;
+  --green-200: #c8e8c2;
+  --green-100: #e4f4e1;
+  --green-50: #f0f9ee;
+  --beige-100: #faf6f0;
+  --beige-200: #f5edd8;
+  --beige-300: #e8dcc4;
+  --beige-400: #d4c5a5;
+  --brown-600: #6b4423;
+  --brown-500: #8B4513;
+  --brown-400: #a0622d;
+  --soil: #5c3317;
+  --white: #ffffff;
+  --text-900: #1a1a1a;
+  --text-700: #444444;
+  --text-500: #777777;
+  --text-300: #aaaaaa;
+  --gold: #d4a017;
+  --gold-light: #f5e6b8;
+  --orange: #e8872a;
+  --red-soft: #d9534f;
+  --blue-soft: #5dade2;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --transition: 0.3s ease;
+  --max-width: 1200px;
+  --font-size-game: 18px;
+  --font-size-game-lg: 22px;
+  --font-size-game-xl: 28px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-700);
+  background: var(--white);
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--green-600); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--green-800); }
+
+*:focus-visible { outline: 3px solid var(--green-400); outline-offset: 2px; }
+
+/* ===== UTILITY ===== */
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+.section { padding: 80px 0; }
+.section-alt { background: var(--green-50); }
+.section-beige { background: var(--beige-100); }
+.section-dark { background: var(--green-900); color: var(--white); }
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green-100);
+  color: var(--green-700);
+  padding: 6px 18px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.section-dark .section-label { background: rgba(255,255,255,0.15); color: var(--green-300); }
+
+.section-title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 800;
+  color: var(--green-900);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.section-dark .section-title { color: var(--white); }
+
+.section-subtitle {
+  font-size: 18px;
+  color: var(--text-500);
+  max-width: 650px;
+  margin-bottom: 40px;
+}
+.section-dark .section-subtitle { color: var(--green-200); }
+
+.text-center { text-align: center; }
+.text-center .section-subtitle { margin-left: auto; margin-right: auto; }
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--green-100);
+  transition: box-shadow var(--transition);
+}
+.navbar.scrolled { box-shadow: var(--shadow-md); }
+
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--green-800);
+}
+.navbar-logo span { font-size: 28px; }
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+}
+.navbar-links a {
+  color: var(--text-700);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all var(--transition);
+}
+.navbar-links a:hover { color: var(--green-700); background: var(--green-50); }
+
+.navbar-cta {
+  background: var(--green-600) !important;
+  color: var(--white) !important;
+  border-radius: 25px !important;
+  padding: 10px 20px !important;
+}
+.navbar-cta:hover { background: var(--green-700) !important; }
+
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--green-800);
+  padding: 4px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  padding: 140px 0 80px;
+  background: linear-gradient(135deg, var(--green-50) 0%, var(--beige-100) 50%, var(--green-100) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--green-200) 0%, transparent 70%);
+  opacity: 0.5;
+}
+
+.hero .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+}
+
+.hero-content h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900;
+  color: var(--green-900);
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.hero-content h1 em {
+  color: var(--green-600);
+  font-style: normal;
+}
+
+.hero-content p {
+  font-size: 19px;
+  color: var(--text-700);
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 30px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-green {
+  background: var(--green-600);
+  color: var(--white);
+  box-shadow: 0 4px 15px rgba(74,140,63,0.35);
+}
+.btn-green:hover { background: var(--green-700); color: var(--white); box-shadow: 0 6px 25px rgba(74,140,63,0.45); }
+
+.btn-outline {
+  background: var(--white);
+  color: var(--green-700);
+  border: 2px solid var(--green-300);
+}
+.btn-outline:hover { background: var(--green-50); color: var(--green-800); }
+
+.btn-white {
+  background: var(--white);
+  color: var(--green-800);
+  box-shadow: var(--shadow-sm);
+}
+.btn-white:hover { box-shadow: var(--shadow-md); color: var(--green-900); }
+
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-illustration {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--green-200), var(--green-300));
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+.hero-illustration::after { display: none; }
+
+.hero-stats {
+  display: flex;
+  gap: 30px;
+  margin-top: 40px;
+}
+.hero-stat { text-align: center; }
+.hero-stat .number {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--green-700);
+  display: block;
+}
+.hero-stat .label {
+  font-size: 13px;
+  color: var(--text-500);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ===== CARDS GRID ===== */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--green-100);
+  transition: all var(--transition);
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+.card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 16px;
+  background: var(--green-100);
+}
+
+.card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--green-900);
+  margin-bottom: 8px;
+}
+
+.card p { font-size: 15px; color: var(--text-500); }
+
+/* ===== TIMELINE ===== */
+.timeline { position: relative; max-width: 700px; margin: 0 auto; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--green-200);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  padding-left: 64px;
+  margin-bottom: 36px;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--green-500);
+  border: 3px solid var(--white);
+  box-shadow: var(--shadow-sm);
+}
+.timeline-item h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green-800);
+  margin-bottom: 6px;
+}
+.timeline-item p { font-size: 15px; color: var(--text-500); }
+
+/* ===== GALLERY ===== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.gallery-item {
+  aspect-ratio: 4/3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--green-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+}
+.gallery-item:hover { transform: scale(1.03); box-shadow: var(--shadow-md); }
+.gallery-item .gallery-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.6));
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ===== PARTNERS ===== */
+.partners-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+}
+.partner-logo {
+  background: var(--white);
+  padding: 20px 30px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--green-100);
+  font-weight: 700;
+  color: var(--green-800);
+  font-size: 15px;
+  text-align: center;
+  transition: all var(--transition);
+  min-width: 160px;
+}
+.partner-logo:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.partner-logo .partner-icon { font-size: 32px; margin-bottom: 6px; display: block; }
+
+/* ===== IMPACT NUMBERS ===== */
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px;
+  text-align: center;
+}
+.impact-item {
+  padding: 24px;
+}
+.impact-number {
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 900;
+  color: var(--green-400);
+  display: block;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.impact-label {
+  font-size: 15px;
+  color: var(--green-200);
+  font-weight: 600;
+}
+
+/* ===== SPONSOR SECTION ===== */
+.sponsor-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+.sponsor-benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--green-50);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--green-500);
+}
+.sponsor-benefit .check {
+  font-size: 20px;
+  color: var(--green-600);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.sponsor-benefit p { font-size: 15px; color: var(--text-700); }
+
+.sponsor-needs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.sponsor-need {
+  background: var(--beige-100);
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-700);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== TECH SECTION ===== */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+.tech-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--green-100);
+  transition: all var(--transition);
+}
+.tech-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.tech-card .tech-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+.tech-card h3 { font-size: 18px; font-weight: 700; color: var(--green-800); margin-bottom: 6px; }
+.tech-card p { font-size: 14px; color: var(--text-500); }
+
+/* ===== CONTACT ===== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.contact-form {
+  background: var(--white);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.contact-form h3 {
+  font-size: 22px;
+  color: var(--green-800);
+  margin-bottom: 20px;
+}
+
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-700);
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--green-200);
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-family: inherit;
+  transition: border-color var(--transition);
+  background: var(--white);
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--green-500);
+  outline: none;
+}
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+.contact-info-cards {
+  display: grid;
+  gap: 16px;
+}
+.contact-card {
+  background: var(--white);
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all var(--transition);
+}
+.contact-card:hover { box-shadow: var(--shadow-md); }
+.contact-card .icon {
+  font-size: 28px;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--green-100);
+  flex-shrink: 0;
+}
+.contact-card h4 { font-size: 16px; color: var(--green-800); }
+.contact-card p { font-size: 14px; color: var(--text-500); }
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--green-900);
+  color: var(--green-200);
+  padding: 50px 0 30px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+.footer h4 {
+  color: var(--white);
+  font-size: 17px;
+  margin-bottom: 16px;
+}
+.footer p, .footer a { font-size: 14px; color: var(--green-300); }
+.footer a:hover { color: var(--white); }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 8px; }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--green-300);
+}
+.footer-bottom .quote {
+  font-size: 18px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--green-200);
+  margin-bottom: 10px;
+}
+
+/* ===== GAME SECTION ===== */
+.game-wrapper {
+  background: linear-gradient(180deg, var(--green-50) 0%, var(--beige-100) 100%);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--green-200);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.game-topbar {
+  background: linear-gradient(135deg, var(--green-700), var(--green-600));
+  color: var(--white);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.game-topbar .game-title-bar {
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-topbar .stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.game-stat {
+  background: rgba(255,255,255,0.2);
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.game-topbar .settings-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 22px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.game-topbar .settings-btn:hover { background: rgba(255,255,255,0.35); }
+
+.game-nav {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 10px;
+  flex-wrap: wrap;
+  background: var(--beige-100);
+  border-bottom: 1px solid var(--green-200);
+}
+
+.game-tab {
+  background: var(--white);
+  border: 2px solid var(--green-300);
+  color: var(--green-800);
+  padding: 8px 18px;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.game-tab:hover { background: var(--green-100); transform: translateY(-2px); }
+.game-tab.active {
+  background: var(--green-600);
+  color: var(--white);
+  border-color: var(--green-600);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74,140,63,0.3);
+}
+
+.game-screen { display: none; padding: 20px; }
+.game-screen.active { display: block; }
+
+/* Garden */
+.garden-container {
+  background: linear-gradient(180deg, var(--green-200) 0%, var(--green-300) 100%);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 2px solid var(--green-400);
+}
+
+.garden-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.plot {
+  background: linear-gradient(135deg, var(--brown-600), var(--brown-500));
+  border-radius: var(--radius);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 3px solid var(--soil);
+  position: relative;
+  font-size: 40px;
+  min-height: 90px;
+}
+.plot:hover { transform: scale(1.05); box-shadow: var(--shadow-md); }
+.plot.empty { font-size: 28px; color: rgba(255,255,255,0.35); }
+.plot.empty::after { content: '+'; }
+
+.plot .plant-emoji { font-size: 40px; line-height: 1; }
+.plot .plant-stage {
+  font-size: 11px;
+  color: var(--white);
+  background: rgba(0,0,0,0.4);
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-top: 3px;
+}
+
+.plot .progress-bar {
+  position: absolute;
+  bottom: 5px;
+  left: 10%;
+  width: 80%;
+  height: 5px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.plot .progress-bar .fill {
+  height: 100%;
+  background: var(--green-400);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.plot .water-indicator {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.garden-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.tool-btn {
+  padding: 9px 18px;
+  border-radius: 25px;
+  border: 2px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.tool-btn:hover { transform: translateY(-2px); }
+.tool-btn.active { border-color: var(--orange); box-shadow: 0 0 12px rgba(232,135,42,0.35); }
+
+.tool-water { background: #daf0f7; color: #1a6b8a; }
+.tool-harvest { background: var(--gold-light); color: var(--brown-600); }
+.tool-compost { background: var(--green-100); color: var(--green-800); }
+
+/* Shop cards */
+.game-shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
+}
+
+.seed-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 18px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.seed-card:hover { border-color: var(--green-500); transform: translateY(-3px); }
+.seed-card .emoji { font-size: 44px; margin-bottom: 6px; }
+.seed-card .name { font-weight: 700; font-size: 16px; color: var(--green-800); }
+.seed-card .info { font-size: 13px; color: var(--text-500); margin: 3px 0; }
+.seed-card .price { font-weight: 700; color: var(--orange); font-size: 15px; }
+.seed-card.locked { opacity: 0.45; cursor: not-allowed; }
+
+/* Missions */
+.mission-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-left: 4px solid var(--green-500);
+}
+.mission-card.completed { border-left-color: var(--gold); opacity: 0.7; }
+.mission-card .mission-icon { font-size: 32px; }
+.mission-card .mission-info { flex: 1; }
+.mission-card .mission-title { font-weight: 700; font-size: 15px; color: var(--green-900); }
+.mission-card .mission-desc { font-size: 13px; color: var(--text-500); }
+.mission-card .mission-reward { font-weight: 700; color: var(--orange); white-space: nowrap; font-size: 14px; }
+.mission-card .mission-progress {
+  width: 100%;
+  height: 6px;
+  background: var(--green-100);
+  border-radius: 3px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+.mission-card .mission-progress .fill {
+  height: 100%;
+  background: var(--green-500);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+/* Medals */
+.game-medals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+.medal-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 18px 12px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s;
+}
+.medal-card:hover { transform: translateY(-3px); }
+.medal-card.locked { opacity: 0.3; filter: grayscale(1); }
+.medal-card .medal-icon { font-size: 44px; margin-bottom: 5px; }
+.medal-card .medal-name { font-weight: 700; font-size: 13px; color: var(--green-800); }
+
+/* Game section headers */
+.game-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.game-section-header h3 {
+  font-size: 20px;
+  color: var(--green-800);
+  font-weight: 700;
+}
+.game-section-header .icon { font-size: 26px; }
+
+/* Settings panel */
+.game-settings {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--green-100);
+}
+.setting-row:last-child { border-bottom: none; }
+.setting-label { font-weight: 600; font-size: 15px; color: var(--text-700); }
+
+.toggle { position: relative; width: 50px; height: 28px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle .slider {
+  position: absolute; inset: 0;
+  background: var(--beige-300);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.toggle .slider::before {
+  content: '';
+  position: absolute;
+  width: 22px; height: 22px;
+  left: 3px; bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.toggle input:checked + .slider { background: var(--green-500); }
+.toggle input:checked + .slider::before { transform: translateX(22px); }
+
+/* Welcome overlay */
+.game-welcome {
+  text-align: center;
+  padding: 40px 20px;
+}
+.game-welcome .mascot {
+  font-size: 80px;
+  margin-bottom: 10px;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.game-welcome h2 {
+  font-size: 28px;
+  color: var(--green-800);
+  margin-bottom: 8px;
+}
+.game-welcome .subtitle {
+  font-size: 17px;
+  color: var(--green-600);
+  font-style: italic;
+  margin-bottom: 24px;
+}
+.game-welcome input {
+  font-size: 18px;
+  padding: 12px 20px;
+  border: 2px solid var(--green-300);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* Modals */
+.game-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.game-modal-overlay.active { display: flex; }
+
+.game-modal {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  animation: popIn 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.game-modal h2 { color: var(--green-800); margin-bottom: 8px; font-size: 24px; }
+.game-modal .quiz-category {
+  display: inline-block;
+  background: var(--green-100);
+  color: var(--green-700);
+  padding: 4px 14px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.game-modal .question { font-size: 19px; margin-bottom: 18px; line-height: 1.4; color: var(--text-900); }
+
+.quiz-options { display: grid; gap: 8px; }
+.quiz-option {
+  background: var(--green-50);
+  border: 2px solid var(--green-300);
+  border-radius: var(--radius);
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  color: var(--text-700);
+}
+.quiz-option:hover { background: var(--green-400); color: var(--white); border-color: var(--green-500); }
+.quiz-option.correct { background: var(--green-600) !important; color: white !important; border-color: var(--green-700); animation: pulse 0.5s; }
+.quiz-option.wrong { background: var(--red-soft) !important; color: white !important; border-color: #c0392b; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+
+.quiz-feedback {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.success { background: var(--green-100); color: var(--green-800); }
+.quiz-feedback.fail { background: #fde8e8; color: #8b1a1a; }
+
+.game-btn-primary {
+  background: linear-gradient(135deg, var(--green-600), var(--green-700));
+  color: var(--white);
+  border: none;
+  padding: 12px 30px;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(74,140,63,0.3);
+}
+.game-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(74,140,63,0.4); }
+
+.game-btn-secondary {
+  background: var(--white);
+  color: var(--green-800);
+  border: 2px solid var(--green-300);
+  padding: 9px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.game-btn-secondary:hover { background: var(--green-50); }
+
+/* Level up */
+.levelup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 2100;
+  align-items: center;
+  justify-content: center;
+}
+.levelup-overlay.active { display: flex; }
+.levelup-box {
+  background: linear-gradient(135deg, var(--gold), var(--orange));
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  text-align: center;
+  color: var(--white);
+  animation: popIn 0.4s ease;
+  box-shadow: var(--shadow-lg);
+}
+.levelup-box .big-icon { font-size: 70px; }
+.levelup-box h2 { font-size: 32px; margin: 8px 0; }
+.levelup-box p { font-size: 19px; margin-bottom: 18px; }
+
+/* Toast */
+.game-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--green-800);
+  color: var(--white);
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  z-index: 3000;
+  transition: transform 0.3s ease;
+  text-align: center;
+  max-width: 90%;
+}
+.game-toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ===== ANIMATED COUNTERS ===== */
+.counter-animated { transition: all 0.5s; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hero .container { grid-template-columns: 1fr; text-align: center; }
+  .hero-content p { margin-left: auto; margin-right: auto; }
+  .hero-buttons { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .hero-visual { order: -1; }
+  .hero-illustration { max-width: 280px; font-size: 80px; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .navbar-links { display: none; }
+  .navbar-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    padding: 16px;
+    box-shadow: var(--shadow-md);
+    border-top: 1px solid var(--green-100);
+  }
+  .mobile-toggle { display: block; }
+  .section { padding: 50px 0; }
+  .garden-grid { grid-template-columns: repeat(3, 1fr); }
+  .plot { min-height: 75px; }
+  .plot .plant-emoji { font-size: 30px; }
+  .game-tab { padding: 7px 12px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a href="#" class="navbar-logo">
+      <img src="logo.jpg" alt="Logo Horta Escolar" style="height:42px;width:auto;">
+      Horta Escolar
+    </a>
+    <button class="mobile-toggle" onclick="document.querySelector('.navbar-links').classList.toggle('open')" aria-label="Menu">&#x2630;</button>
+    <ul class="navbar-links">
+      <li><a href="#home">In&iacute;cio</a></li>
+      <li><a href="#historia">Hist&oacute;ria</a></li>
+      <li><a href="#objetivos">Objetivos</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#jogo">Jogo</a></li>
+      <li><a href="#impacto">Impacto</a></li>
+      <li><a href="#tecnologia">Tecnologia</a></li>
+      <li><a href="#parceiros">Parceiros</a></li>
+      <li><a href="#contato" class="navbar-cta">Seja Parceiro</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-content">
+      <div class="section-label">&#x1F331; Projeto Horta Escolar</div>
+      <h1>Transformando <em>educa&ccedil;&atilde;o</em> em experi&ecirc;ncia <em>pr&aacute;tica</em></h1>
+      <p>O Projeto Horta Escolar une alimenta&ccedil;&atilde;o saud&aacute;vel, consci&ecirc;ncia ambiental, sustentabilidade e tecnologia para transformar a vida de crian&ccedil;as e comunidades.</p>
+      <div class="hero-buttons">
+        <a href="#patrocinio" class="btn btn-green">&#x1F91D; Quero ser parceiro</a>
+        <a href="#historia" class="btn btn-outline">&#x1F4D6; Conhe&ccedil;a o projeto</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="number counter" data-target="500">0</span>
+          <span class="label">Alunos</span>
+        </div>
+        <div class="hero-stat">
+          <span class="number counter" data-target="8">0</span>
+          <span class="label">Escolas</span>
+        </div>
+        <div class="hero-stat">
+          <span class="number counter" data-target="1200">0</span>
+          <span class="label">Mudas plantadas</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-illustration" style="background:transparent;box-shadow:none;"><img src="logo.jpg" alt="Logo Projeto Horta Escolar" style="width:100%;max-width:420px;border-radius:20px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NOSSA HIST&Oacute;RIA ===== -->
+<section class="section" id="historia">
+  <div class="container">
+    <div class="section-label">&#x1F4D6; Trajet&oacute;ria</div>
+    <h2 class="section-title">Nossa Hist&oacute;ria</h2>
+    <p class="section-subtitle">Uma jornada de dedica&ccedil;&atilde;o, amor &agrave; educa&ccedil;&atilde;o e compromisso com o futuro.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <h3>&#x1F331; O In&iacute;cio</h3>
+        <p>O projeto nasceu da vontade de conectar crian&ccedil;as &agrave; natureza, mostrando que a terra pode ser a melhor sala de aula. Os primeiros canteiros foram plantados com muita esperan&ccedil;a.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>&#x1F469;&#x200D;&#x1F3EB; Professora Keila Cinthia</h3>
+        <p>A professora Keila Cinthia trouxe a vis&atilde;o pedag&oacute;gica, integrando a horta ao curr&iacute;culo escolar e envolvendo alunos de todas as s&eacute;ries em atividades pr&aacute;ticas.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>&#x1F957; Nutricionista Joana</h3>
+        <p>Com a entrada da nutricionista Joana, o projeto ganhou for&ccedil;a na educa&ccedil;&atilde;o alimentar, orientando as crian&ccedil;as sobre alimenta&ccedil;&atilde;o saud&aacute;vel e o valor dos alimentos naturais.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>&#x1F4BB; Tecnologia Educacional</h3>
+        <p>A integra&ccedil;&atilde;o com rob&oacute;tica, Arduino e sensores transformou a horta em um laborat&oacute;rio vivo de ci&ecirc;ncia e tecnologia, despertando a curiosidade dos alunos.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>&#x1F680; Expans&atilde;o</h3>
+        <p>O projeto cresceu para v&aacute;rias escolas da regi&atilde;o, impactando centenas de crian&ccedil;as e suas fam&iacute;lias, promovendo mudan&ccedil;as reais na comunidade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OBJETIVOS ===== -->
+<section class="section section-alt" id="objetivos">
+  <div class="container text-center">
+    <div class="section-label">&#x1F3AF; Miss&atilde;o</div>
+    <h2 class="section-title">Objetivos do Projeto</h2>
+    <p class="section-subtitle">Cada semente plantada &eacute; um passo para um futuro mais saud&aacute;vel, sustent&aacute;vel e consciente.</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">&#x1F966;</div>
+        <h3>Educa&ccedil;&atilde;o Alimentar</h3>
+        <p>Ensinar crian&ccedil;as sobre alimenta&ccedil;&atilde;o saud&aacute;vel, valoriza&ccedil;&atilde;o dos alimentos naturais e h&aacute;bitos nutritivos.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#x1F30E;</div>
+        <h3>Educa&ccedil;&atilde;o Ambiental</h3>
+        <p>Conscientizar sobre preserva&ccedil;&atilde;o ambiental, reciclagem, coleta seletiva e respeito &agrave; natureza.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#x267B;&#xFE0F;</div>
+        <h3>Sustentabilidade</h3>
+        <p>Promover pr&aacute;ticas sustent&aacute;veis como compostagem, reaproveitamento e uso consciente de recursos.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#x1F916;</div>
+        <h3>Rob&oacute;tica e Tecnologia</h3>
+        <p>Integrar Arduino, sensores e automa&ccedil;&atilde;o ao cultivo, unindo natureza e inova&ccedil;&atilde;o.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#x1F331;</div>
+        <h3>Compostagem</h3>
+        <p>Transformar res&iacute;duos org&acirc;nicos em adubo natural, fechando o ciclo sustent&aacute;vel na escola.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#x1F9D2;</div>
+        <h3>Autonomia Infantil</h3>
+        <p>Desenvolver responsabilidade, paci&ecirc;ncia e autonomia nas crian&ccedil;as atrav&eacute;s do cuidado com a horta.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#x1F33B;</div>
+        <h3>Conex&atilde;o com a Natureza</h3>
+        <p>Reaproximar crian&ccedil;as do mundo natural, estimulando respeito e curiosidade pelo meio ambiente.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#x1F91D;</div>
+        <h3>Inclus&atilde;o e Pr&aacute;tica</h3>
+        <p>Garantir que todas as crian&ccedil;as participem ativamente, com aprendizagem pr&aacute;tica e inclusiva.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALERIA ===== -->
+<section class="section" id="galeria">
+  <div class="container text-center">
+    <div class="section-label">&#x1F4F8; Registro</div>
+    <h2 class="section-title">Galeria</h2>
+    <p class="section-subtitle">Momentos especiais do nosso projeto &mdash; cada foto conta uma hist&oacute;ria de aprendizado.</p>
+
+    <div class="gallery-grid">
+      <div class="gallery-item" style="background:linear-gradient(135deg,#c8e8c2,#a3d99a);">
+        &#x1F33F;
+        <span class="gallery-label">Canteiros da horta</span>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#f5edd8,#e8dcc4);">
+        &#x1F9D2;
+        <span class="gallery-label">Alunos plantando</span>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#d4edda,#b5dfb5);">
+        &#x1F955;
+        <span class="gallery-label">Colheita</span>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#e4f4e1,#c8e8c2);">
+        &#x1F331;
+        <span class="gallery-label">Mudas crescendo</span>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#faf6f0,#f5edd8);">
+        &#x1F4DA;
+        <span class="gallery-label">Atividades educativas</span>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#daf0f7,#b8e4f0);">
+        &#x1F4A7;
+        <span class="gallery-label">Irriga&ccedil;&atilde;o</span>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#f5e6b8,#e8d49a);">
+        &#x1F455;
+        <span class="gallery-label">Camisetas do projeto</span>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#c8e8c2,#7bc96f);">
+        &#x1F389;
+        <span class="gallery-label">Eventos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== JOGO ===== -->
+<section class="section section-beige" id="jogo">
+  <div class="container text-center">
+    <div class="section-label">&#x1F3AE; Interativo</div>
+    <h2 class="section-title">Jogue: Colheita Feliz</h2>
+    <p class="section-subtitle">Aprenda sobre horta, alimenta&ccedil;&atilde;o e meio ambiente de forma divertida!</p>
+
+    <div class="game-wrapper" id="game-wrapper">
+      <!-- Welcome -->
+      <div id="game-welcome" class="game-welcome">
+        <div class="mascot">&#x1F331;</div>
+        <h2>Colheita Feliz da Horta Escolar</h2>
+        <p class="subtitle">&ldquo;Plantar, cuidar, aprender e colher.&rdquo;</p>
+        <div style="margin-bottom:16px;">
+          <input type="text" id="player-name" placeholder="Qual &eacute; o seu nome?" maxlength="20" aria-label="Digite seu nome">
+        </div>
+        <button class="game-btn-primary" onclick="startGame()" aria-label="Come&ccedil;ar a jogar">&#x1F331; Come&ccedil;ar a Plantar!</button>
+      </div>
+
+      <!-- Game UI (hidden until start) -->
+      <div id="game-ui" style="display:none;">
+        <div class="game-topbar">
+          <div class="game-title-bar">
+            <span>&#x1F331;</span>
+            <span>Horta Escolar</span>
+          </div>
+          <div class="stats">
+            <div class="game-stat"><span>&#x1F33B;</span> N&iacute;vel: <span id="stat-level">1</span></div>
+            <div class="game-stat"><span>&#x1FA99;</span> Moedas: <span id="stat-coins">50</span></div>
+            <div class="game-stat"><span>&#x2B50;</span> XP: <span id="stat-xp">0</span>/<span id="stat-xp-max">100</span></div>
+          </div>
+          <button class="settings-btn" onclick="gameToggleScreen('settings')" aria-label="Configura&ccedil;&otilde;es">&#x2699;</button>
+        </div>
+
+        <nav class="game-nav" aria-label="Navega&ccedil;&atilde;o do jogo">
+          <button class="game-tab active" onclick="gameToggleScreen('garden')" data-screen="garden">&#x1F33F; Horta</button>
+          <button class="game-tab" onclick="gameToggleScreen('shop')" data-screen="shop">&#x1F33E; Loja</button>
+          <button class="game-tab" onclick="gameToggleScreen('missions')" data-screen="missions">&#x1F4CB; Miss&otilde;es</button>
+          <button class="game-tab" onclick="gameToggleScreen('medals')" data-screen="medals">&#x1F3C5; Medalhas</button>
+          <button class="game-tab" onclick="gameToggleScreen('settings')" data-screen="settings">&#x2699; Op&ccedil;&otilde;es</button>
+        </nav>
+
+        <!-- Garden -->
+        <div id="gscreen-garden" class="game-screen active">
+          <div class="game-section-header">
+            <span class="icon">&#x1F33F;</span>
+            <h3>Minha Horta</h3>
+          </div>
+          <div class="garden-actions">
+            <button class="tool-btn tool-water active" id="tool-water" onclick="selectTool('water')">&#x1F4A7; Regar</button>
+            <button class="tool-btn tool-harvest" id="tool-harvest" onclick="selectTool('harvest')">&#x270B; Colher</button>
+            <button class="tool-btn tool-compost" id="tool-compost" onclick="selectTool('compost')">&#x267B; Adubar</button>
+          </div>
+          <div class="garden-container">
+            <div class="garden-grid" id="garden-grid"></div>
+          </div>
+          <p style="text-align:center;margin-top:10px;color:var(--green-700);font-weight:600;font-size:14px;" id="garden-tip">
+            Clique em um canteiro vazio para plantar!
+          </p>
+        </div>
+
+        <!-- Shop -->
+        <div id="gscreen-shop" class="game-screen">
+          <div class="game-section-header">
+            <span class="icon">&#x1F33E;</span>
+            <h3>Loja de Sementes</h3>
+          </div>
+          <div class="game-shop-grid" id="shop-grid"></div>
+        </div>
+
+        <!-- Missions -->
+        <div id="gscreen-missions" class="game-screen">
+          <div class="game-section-header">
+            <span class="icon">&#x1F4CB;</span>
+            <h3>Miss&otilde;es do Dia</h3>
+          </div>
+          <div id="missions-list"></div>
+        </div>
+
+        <!-- Medals -->
+        <div id="gscreen-medals" class="game-screen">
+          <div class="game-section-header">
+            <span class="icon">&#x1F3C5;</span>
+            <h3>Medalhas Educativas</h3>
+          </div>
+          <div class="game-medals-grid" id="medals-grid"></div>
+        </div>
+
+        <!-- Settings -->
+        <div id="gscreen-settings" class="game-screen">
+          <div class="game-section-header">
+            <span class="icon">&#x2699;</span>
+            <h3>Op&ccedil;&otilde;es e Acessibilidade</h3>
+          </div>
+          <div class="game-settings">
+            <div class="setting-row">
+              <span class="setting-label">&#x1F50A; Sons da Natureza</span>
+              <label class="toggle"><input type="checkbox" id="setting-sound" checked onchange="toggleSound()"><span class="slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <span class="setting-label">&#x1F5E3; Narra&ccedil;&atilde;o (ler em voz alta)</span>
+              <label class="toggle"><input type="checkbox" id="setting-narration" onchange="toggleNarration()"><span class="slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <span class="setting-label">&#x1F524; Letras Extra Grandes</span>
+              <label class="toggle"><input type="checkbox" id="setting-bigtext" onchange="toggleBigText()"><span class="slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <span class="setting-label">&#x1F319; Reduzir Anima&ccedil;&otilde;es</span>
+              <label class="toggle"><input type="checkbox" id="setting-reducemotion" onchange="toggleReduceMotion()"><span class="slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <span class="setting-label">&#x1F504; Reiniciar Jogo</span>
+              <button class="game-btn-secondary" onclick="resetGame()">Reiniciar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== IMPACTO SOCIAL ===== -->
+<section class="section section-dark" id="impacto">
+  <div class="container text-center">
+    <div class="section-label">&#x1F4CA; Resultados</div>
+    <h2 class="section-title">Impacto Social</h2>
+    <p class="section-subtitle">N&uacute;meros que mostram a transforma&ccedil;&atilde;o gerada pelo projeto.</p>
+
+    <div class="impact-grid">
+      <div class="impact-item">
+        <span class="impact-number counter" data-target="500">0</span>
+        <span class="impact-label">Alunos atendidos</span>
+      </div>
+      <div class="impact-item">
+        <span class="impact-number counter" data-target="8">0</span>
+        <span class="impact-label">Escolas participantes</span>
+      </div>
+      <div class="impact-item">
+        <span class="impact-number counter" data-target="1200">0</span>
+        <span class="impact-label">Mudas plantadas</span>
+      </div>
+      <div class="impact-item">
+        <span class="impact-number counter" data-target="45">0</span>
+        <span class="impact-label">Oficinas realizadas</span>
+      </div>
+      <div class="impact-item">
+        <span class="impact-number counter" data-target="30">0</span>
+        <span class="impact-label">A&ccedil;&otilde;es ambientais</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TECNOLOGIA ===== -->
+<section class="section" id="tecnologia">
+  <div class="container text-center">
+    <div class="section-label">&#x1F4BB; Inova&ccedil;&atilde;o</div>
+    <h2 class="section-title">Tecnologia e Inova&ccedil;&atilde;o</h2>
+    <p class="section-subtitle">Unindo natureza e tecnologia para uma educa&ccedil;&atilde;o do futuro.</p>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon">&#x1F916;</div>
+        <h3>HORTATEC</h3>
+        <p>Programa de tecnologia educacional integrada &agrave; horta escolar.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">&#x2699;&#xFE0F;</div>
+        <h3>Automa&ccedil;&atilde;o</h3>
+        <p>Sistemas automatizados de irriga&ccedil;&atilde;o e monitoramento de umidade do solo.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">&#x1F4DF;</div>
+        <h3>Arduino e Sensores</h3>
+        <p>Alunos aprendem programa&ccedil;&atilde;o e eletr&ocirc;nica com sensores aplicados na horta.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">&#x1F3D7;&#xFE0F;</div>
+        <h3>Impress&atilde;o 3D</h3>
+        <p>Prototipagem de ferramentas e pe&ccedil;as para a horta usando impress&atilde;o 3D.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">&#x2600;&#xFE0F;</div>
+        <h3>Energia Solar</h3>
+        <p>Experi&ecirc;ncias com pain&eacute;is solares para alimentar os sistemas da horta.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">&#x267B;&#xFE0F;</div>
+        <h3>Sustentabilidade</h3>
+        <p>Compostagem inteligente e coleta seletiva com monitoramento digital.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PATROC&Iacute;NIO ===== -->
+<section class="section section-beige" id="patrocinio">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">&#x2764;&#xFE0F; Apoie</div>
+      <h2 class="section-title">Por que precisamos de patroc&iacute;nio</h2>
+      <p class="section-subtitle">O projeto precisa do seu apoio para continuar transformando vidas atrav&eacute;s da educa&ccedil;&atilde;o.</p>
+    </div>
+
+    <div style="max-width:800px;margin:0 auto;">
+      <p style="font-size:17px;margin-bottom:24px;text-align:center;color:var(--text-700);">
+        Para continuar crescendo e impactando mais crian&ccedil;as, o projeto precisa de apoio para:
+      </p>
+
+      <div class="sponsor-needs">
+        <div class="sponsor-need">&#x1F33F; Ampliar canteiros</div>
+        <div class="sponsor-need">&#x1F6D2; Comprar materiais</div>
+        <div class="sponsor-need">&#x1F4A7; Irriga&ccedil;&atilde;o</div>
+        <div class="sponsor-need">&#x1F527; Ferramentas</div>
+        <div class="sponsor-need">&#x1F4DA; Materiais impressos</div>
+        <div class="sponsor-need">&#x1F4BB; Tecnologia educacional</div>
+        <div class="sponsor-need">&#x1F916; Rob&oacute;tica</div>
+        <div class="sponsor-need">&#x1F455; Camisetas</div>
+        <div class="sponsor-need">&#x1F3EB; Oficinas</div>
+        <div class="sponsor-need">&#x1F527; Manuten&ccedil;&atilde;o</div>
+      </div>
+
+      <h3 style="font-size:22px;color:var(--green-800);margin:30px 0 16px;text-align:center;">O que o patrocinador ganha:</h3>
+
+      <div class="sponsor-benefits">
+        <div class="sponsor-benefit">
+          <span class="check">&#x2705;</span>
+          <p>Fortalece a educa&ccedil;&atilde;o da comunidade</p>
+        </div>
+        <div class="sponsor-benefit">
+          <span class="check">&#x2705;</span>
+          <p>Ganha visibilidade social e reconhecimento</p>
+        </div>
+        <div class="sponsor-benefit">
+          <span class="check">&#x2705;</span>
+          <p>Apoia a sustentabilidade e o meio ambiente</p>
+        </div>
+        <div class="sponsor-benefit">
+          <span class="check">&#x2705;</span>
+          <p>Ajuda crian&ccedil;as e fam&iacute;lias diretamente</p>
+        </div>
+        <div class="sponsor-benefit">
+          <span class="check">&#x2705;</span>
+          <p>Marca divulgada em eventos, camisetas e materiais</p>
+        </div>
+        <div class="sponsor-benefit">
+          <span class="check">&#x2705;</span>
+          <p>Associa&ccedil;&atilde;o com projeto de impacto real</p>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:30px;">
+        <a href="#contato" class="btn btn-green" style="font-size:18px;padding:16px 40px;">&#x1F91D; Quero apoiar o projeto</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PARCEIROS ===== -->
+<section class="section" id="parceiros">
+  <div class="container text-center">
+    <div class="section-label">&#x1F91D; Apoiadores</div>
+    <h2 class="section-title">Nossos Parceiros</h2>
+    <p class="section-subtitle">&ldquo;Empresas que cultivam o futuro conosco.&rdquo;</p>
+
+    <div class="partners-grid">
+      <div class="partner-logo">
+        <span class="partner-icon">&#x1F3DB;&#xFE0F;</span>
+        Prefeitura de Jaciara
+      </div>
+      <div class="partner-logo">
+        <span class="partner-icon">&#x1F4DA;</span>
+        Secretaria de Educa&ccedil;&atilde;o
+      </div>
+      <div class="partner-logo">
+        <span class="partner-icon">&#x1F33E;</span>
+        SENAR
+      </div>
+      <div class="partner-logo">
+        <span class="partner-icon">&#x1F3EB;</span>
+        IFMT
+      </div>
+      <div class="partner-logo">
+        <span class="partner-icon">&#x1F91D;</span>
+        COOPL&Iacute;DER
+      </div>
+      <div class="partner-logo" style="border:2px dashed var(--green-300);background:var(--green-50);">
+        <span class="partner-icon">&#x2795;</span>
+        <a href="#contato" style="color:var(--green-700);">Sua empresa aqui</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTATO ===== -->
+<section class="section section-alt" id="contato">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">&#x1F4E9; Fale conosco</div>
+      <h2 class="section-title">Contato</h2>
+      <p class="section-subtitle">Quer ser parceiro, apoiar o projeto ou saber mais? Entre em contato!</p>
+    </div>
+
+    <div class="contact-grid">
+      <form class="contact-form" onsubmit="handleContact(event)">
+        <h3>&#x1F4E8; Envie sua mensagem</h3>
+        <div class="form-group">
+          <label for="contact-name">Nome</label>
+          <input type="text" id="contact-name" placeholder="Seu nome completo" required>
+        </div>
+        <div class="form-group">
+          <label for="contact-email">E-mail</label>
+          <input type="email" id="contact-email" placeholder="seu@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="contact-type">Assunto</label>
+          <select id="contact-type">
+            <option value="parceria">Quero ser parceiro</option>
+            <option value="patrocinio">Patroc&iacute;nio</option>
+            <option value="informacoes">Informa&ccedil;&otilde;es sobre o projeto</option>
+            <option value="outro">Outro assunto</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="contact-message">Mensagem</label>
+          <textarea id="contact-message" placeholder="Sua mensagem..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;">&#x1F4E9; Enviar mensagem</button>
+      </form>
+
+      <div class="contact-info-cards">
+        <div class="contact-card">
+          <div class="icon">&#x1F4F1;</div>
+          <div>
+            <h4>WhatsApp</h4>
+            <p>(66) 99999-0000</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon">&#x1F4F7;</div>
+          <div>
+            <h4>Instagram</h4>
+            <p>@projetohortaescolar</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon">&#x1F4CD;</div>
+          <div>
+            <h4>Localiza&ccedil;&atilde;o</h4>
+            <p>Jaciara &mdash; Mato Grosso, Brasil</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon">&#x1F4E7;</div>
+          <div>
+            <h4>E-mail</h4>
+            <p>contato@hortaescolar.com.br</p>
+          </div>
+        </div>
+        <div class="contact-card" style="background:var(--green-50);border:2px solid var(--green-300);">
+          <div class="icon" style="background:var(--green-200);">&#x1F4F2;</div>
+          <div>
+            <h4>QR Code</h4>
+            <p>Aponte a c&acirc;mera para acessar nosso contato</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4><img src="logo.jpg" alt="Logo" style="height:50px;width:auto;margin-bottom:8px;"> Projeto Horta Escolar</h4>
+        <p style="margin-bottom:12px;">Transformando educa&ccedil;&atilde;o em experi&ecirc;ncia pr&aacute;tica, unindo alimenta&ccedil;&atilde;o saud&aacute;vel, consci&ecirc;ncia ambiental, sustentabilidade e tecnologia.</p>
+        <p>Jaciara &mdash; Mato Grosso, Brasil</p>
+      </div>
+      <div>
+        <h4>Navega&ccedil;&atilde;o</h4>
+        <ul class="footer-links">
+          <li><a href="#home">In&iacute;cio</a></li>
+          <li><a href="#historia">Hist&oacute;ria</a></li>
+          <li><a href="#objetivos">Objetivos</a></li>
+          <li><a href="#galeria">Galeria</a></li>
+          <li><a href="#jogo">Jogo Educativo</a></li>
+          <li><a href="#impacto">Impacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Participe</h4>
+        <ul class="footer-links">
+          <li><a href="#parceiros">Parceiros</a></li>
+          <li><a href="#patrocinio">Patroc&iacute;nio</a></li>
+          <li><a href="#tecnologia">Tecnologia</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="quote">&ldquo;Plantar hoje &eacute; educar para o amanh&atilde;.&rdquo;</p>
+      <p>&copy; 2026 Projeto Horta Escolar &mdash; Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== GAME MODALS (outside game wrapper for proper z-index) ===== -->
+
+<!-- Quiz Modal -->
+<div class="game-modal-overlay" id="quiz-modal">
+  <div class="game-modal" role="dialog" aria-labelledby="quiz-title">
+    <h2 id="quiz-title">&#x1F4DA; Atividade Educativa!</h2>
+    <div class="quiz-category" id="quiz-category"></div>
+    <div class="question" id="quiz-question"></div>
+    <div class="quiz-options" id="quiz-options"></div>
+    <div class="quiz-feedback" id="quiz-feedback"></div>
+    <button class="game-btn-primary" id="quiz-next-btn" style="display:none;margin-top:14px;" onclick="closeQuiz()">Continuar</button>
+  </div>
+</div>
+
+<!-- Plant Select Modal -->
+<div class="game-modal-overlay" id="plant-modal">
+  <div class="game-modal" role="dialog" aria-labelledby="plant-title">
+    <h2 id="plant-title">&#x1F331; Escolha uma Semente</h2>
+    <div class="game-shop-grid" id="plant-select-grid" style="margin-top:14px;"></div>
+    <button class="game-btn-secondary" style="margin-top:14px;" onclick="closePlantModal()">Cancelar</button>
+  </div>
+</div>
+
+<!-- Level Up Overlay -->
+<div class="levelup-overlay" id="levelup-overlay">
+  <div class="levelup-box">
+    <div class="big-icon">&#x1F389;</div>
+    <h2>Parab&eacute;ns!</h2>
+    <p id="levelup-text">Voc&ecirc; subiu para o n&iacute;vel 2!</p>
+    <button class="game-btn-primary" onclick="closeLevelUp()" style="background:var(--white);color:var(--orange);">Continuar!</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="game-toast" id="game-toast"></div>
+
+<script>
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  // Close mobile menu on scroll
+  document.querySelector('.navbar-links').classList.remove('open');
+});
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.navbar-links a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('.navbar-links').classList.remove('open'));
+});
+
+// ===== ANIMATED COUNTERS =====
+const counters = document.querySelectorAll('.counter');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.dataset.target);
+      let current = 0;
+      const increment = Math.max(1, Math.floor(target / 60));
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) { current = target; clearInterval(timer); }
+        el.textContent = current.toLocaleString('pt-BR');
+      }, 30);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObserver.observe(c));
+
+// ===== CONTACT FORM =====
+function handleContact(e) {
+  e.preventDefault();
+  const name = document.getElementById('contact-name').value;
+  showGameToast('Obrigado, ' + name + '! Sua mensagem foi enviada com sucesso.');
+  e.target.reset();
+}
+
+// ===== GAME STATE =====
+let state = {
+  name: '',
+  level: 1,
+  xp: 0,
+  xpToNext: 100,
+  coins: 50,
+  plots: Array(8).fill(null),
+  inventory: { alface: 3, cenoura: 2, tomate: 1 },
+  tool: 'water',
+  harvested: {},
+  quizCorrect: 0,
+  quizTotal: 0,
+  plantsPlanted: 0,
+  plantsHarvested: 0,
+  watered: 0,
+  composted: 0,
+  missionsCompleted: 0,
+  unlockedMedals: [],
+  soundOn: true,
+  narrationOn: false,
+};
+
+// ===== SEEDS =====
+const SEEDS = {
+  alface:    { name: 'Alface',     emoji: '\u{1F96C}', price: 5,  growTime: 15000, xp: 10, coinReward: 8,  levelReq: 1, stages: ['\u{1F331}','\u{1F33F}','\u{1F96C}'] },
+  cenoura:   { name: 'Cenoura',    emoji: '\u{1F955}', price: 8,  growTime: 25000, xp: 15, coinReward: 12, levelReq: 1, stages: ['\u{1F331}','\u{1F33F}','\u{1F955}'] },
+  tomate:    { name: 'Tomate',     emoji: '\u{1F345}', price: 10, growTime: 35000, xp: 20, coinReward: 16, levelReq: 2, stages: ['\u{1F331}','\u{1F33F}','\u{1F345}'] },
+  milho:     { name: 'Milho',      emoji: '\u{1F33D}', price: 12, growTime: 40000, xp: 25, coinReward: 20, levelReq: 2, stages: ['\u{1F331}','\u{1F33E}','\u{1F33D}'] },
+  brocolis:  { name: 'Br\u00f3colis',  emoji: '\u{1F966}', price: 15, growTime: 50000, xp: 30, coinReward: 25, levelReq: 3, stages: ['\u{1F331}','\u{1F33F}','\u{1F966}'] },
+  berinjela: { name: 'Berinjela',  emoji: '\u{1F346}', price: 18, growTime: 55000, xp: 35, coinReward: 30, levelReq: 3, stages: ['\u{1F331}','\u{1F33F}','\u{1F346}'] },
+  pimentao:  { name: 'Piment\u00e3o',  emoji: '\u{1FAD1}', price: 20, growTime: 60000, xp: 40, coinReward: 35, levelReq: 4, stages: ['\u{1F331}','\u{1F33F}','\u{1FAD1}'] },
+  abobora:   { name: 'Ab\u00f3bora',   emoji: '\u{1F383}', price: 25, growTime: 70000, xp: 50, coinReward: 45, levelReq: 5, stages: ['\u{1F331}','\u{1F33E}','\u{1F383}'] },
+};
+
+// ===== QUIZZES (with accents) =====
+const QUIZZES = {
+  matematica: [
+    { q: 'Quanto \u00e9 3 + 4?', opts: ['5','7','8','6'], ans: 1 },
+    { q: 'Quanto \u00e9 10 - 3?', opts: ['6','8','7','5'], ans: 2 },
+    { q: 'Quanto \u00e9 2 x 5?', opts: ['8','10','12','7'], ans: 1 },
+    { q: 'Quanto \u00e9 15 - 8?', opts: ['6','8','7','9'], ans: 2 },
+    { q: 'Quanto \u00e9 6 + 6?', opts: ['11','13','12','10'], ans: 2 },
+    { q: 'Se voc\u00ea tem 8 cenouras e come 3, quantas sobram?', opts: ['4','5','6','3'], ans: 1 },
+    { q: 'Quanto \u00e9 4 x 3?', opts: ['10','11','12','14'], ans: 2 },
+    { q: 'Quanto \u00e9 20 - 7?', opts: ['12','14','13','11'], ans: 2 },
+  ],
+  portugues: [
+    { q: 'Qual palavra est\u00e1 escrita corretamente?', opts: ['Orta','Horta','Holta','Olta'], ans: 1 },
+    { q: 'Complete: A ____ \u00e9 uma verdura verde.', opts: ['alface','almo\u00e7o','alfase','alfaci'], ans: 0 },
+    { q: 'Qual \u00e9 o plural de "tomate"?', opts: ['tomates','tomatos','tomatis','tomateis'], ans: 0 },
+    { q: 'Quantas s\u00edlabas tem "cenoura"?', opts: ['2','4','3','5'], ans: 2 },
+    { q: 'Qual letra come\u00e7a a palavra "berinjela"?', opts: ['D','P','B','M'], ans: 2 },
+    { q: 'Complete: O sol _____ todos os dias.', opts: ['nasce','nase','nasse','naci'], ans: 0 },
+  ],
+  ciencias: [
+    { q: 'O que as plantas precisam para crescer?', opts: ['\u00c1gua, sol e terra','S\u00f3 \u00e1gua','S\u00f3 sol','S\u00f3 vento'], ans: 0 },
+    { q: 'De onde vem o oxig\u00eanio que respiramos?', opts: ['Das f\u00e1bricas','Do mar','Das plantas','Das nuvens'], ans: 2 },
+    { q: 'Qual parte da planta absorve a \u00e1gua?', opts: ['Folha','Flor','Raiz','Fruto'], ans: 2 },
+    { q: 'O que \u00e9 fotoss\u00edntese?', opts: ['A planta dormir','A planta fazer comida com a luz do sol','A planta morrer','A planta crescer de noite'], ans: 1 },
+    { q: 'Qual inseto ajuda na poliniza\u00e7\u00e3o?', opts: ['Barata','Abelha','Mosca','Formiga'], ans: 1 },
+  ],
+  ambiental: [
+    { q: 'Qual cor de lixeira \u00e9 para papel?', opts: ['Vermelho','Verde','Azul','Amarelo'], ans: 2 },
+    { q: 'O que \u00e9 compostagem?', opts: ['Queimar lixo','Transformar restos de comida em adubo','Jogar lixo no rio','Enterrar pl\u00e1stico'], ans: 1 },
+    { q: 'Qual energia vem do sol?', opts: ['E\u00f3lica','Nuclear','Solar','H\u00eddrica'], ans: 2 },
+    { q: 'Por que devemos economizar \u00e1gua?', opts: ['Porque a \u00e1gua \u00e9 infinita','Porque \u00e1gua pot\u00e1vel \u00e9 limitada','Porque \u00e1gua \u00e9 cara','N\u00e3o precisamos economizar'], ans: 1 },
+    { q: 'Qual cor de lixeira \u00e9 para pl\u00e1stico?', opts: ['Azul','Verde','Vermelho','Amarelo'], ans: 2 },
+    { q: 'O que \u00e9 reciclagem?', opts: ['Jogar tudo fora','Reaproveitar materiais','Queimar lixo','Esconder lixo'], ans: 1 },
+    { q: 'O que a energia solar pode fazer na escola?', opts: ['Poluir','Gerar eletricidade limpa','Fazer barulho','Nada'], ans: 1 },
+  ],
+  logica: [
+    { q: 'Qual vem depois: 2, 4, 6, __?', opts: ['7','9','8','10'], ans: 2 },
+    { q: 'Se toda cenoura \u00e9 laranja, e este vegetal \u00e9 laranja, ele \u00e9 uma cenoura?', opts: ['Com certeza sim','N\u00e3o necessariamente','Nunca','S\u00f3 se for grande'], ans: 1 },
+    { q: 'Qual \u00e9 diferente: tomate, cenoura, bola, alface?', opts: ['Tomate','Cenoura','Bola','Alface'], ans: 2 },
+    { q: 'Qual vem depois: 10, 8, 6, __?', opts: ['5','3','4','2'], ans: 2 },
+    { q: 'Maria tem mais ma\u00e7\u00e3s que Jo\u00e3o. Jo\u00e3o tem mais que Pedro. Quem tem menos?', opts: ['Maria','Jo\u00e3o','Pedro','Todos iguais'], ans: 2 },
+  ],
+};
+
+const CATEGORY_NAMES = {
+  matematica: 'Matem\u00e1tica',
+  portugues: 'Portugu\u00eas',
+  ciencias: 'Ci\u00eancias',
+  ambiental: 'Educa\u00e7\u00e3o Ambiental',
+  logica: 'L\u00f3gica',
+};
+
+// ===== MEDALS =====
+const MEDALS = [
+  { id: 'first_plant',  name: 'Primeiro Plantio',   icon: '\u{1F331}', desc: 'Plantou sua primeira semente', check: s => s.plantsPlanted >= 1 },
+  { id: 'first_harvest', name: 'Primeira Colheita', icon: '\u{1F33E}', desc: 'Colheu seu primeiro alimento', check: s => s.plantsHarvested >= 1 },
+  { id: 'quiz5',        name: 'Estudante',           icon: '\u{1F4DA}', desc: 'Acertou 5 atividades', check: s => s.quizCorrect >= 5 },
+  { id: 'quiz20',       name: 'S\u00e1bio da Horta', icon: '\u{1F9D1}\u200D\u{1F393}', desc: 'Acertou 20 atividades', check: s => s.quizCorrect >= 20 },
+  { id: 'harvest10',    name: 'Colhedor Expert',     icon: '\u{1F3C6}', desc: 'Colheu 10 alimentos', check: s => s.plantsHarvested >= 10 },
+  { id: 'water20',      name: 'Amigo da \u00c1gua',  icon: '\u{1F4A7}', desc: 'Regou 20 vezes', check: s => s.watered >= 20 },
+  { id: 'level3',       name: 'Fazendeiro',          icon: '\u{1F468}\u200D\u{1F33E}', desc: 'Alcan\u00e7ou o n\u00edvel 3', check: s => s.level >= 3 },
+  { id: 'level5',       name: 'Mestre da Horta',     icon: '\u{1F451}', desc: 'Alcan\u00e7ou o n\u00edvel 5', check: s => s.level >= 5 },
+  { id: 'compost5',     name: 'Composteiro',         icon: '\u267B\uFE0F', desc: 'Adubou 5 plantas', check: s => s.composted >= 5 },
+  { id: 'plant20',      name: 'Jardineiro Dedicado', icon: '\u{1F33B}', desc: 'Plantou 20 sementes', check: s => s.plantsPlanted >= 20 },
+];
+
+// ===== MISSIONS =====
+let dailyMissions = [];
+
+function generateMissions() {
+  dailyMissions = [
+    { id: 'm1', title: 'Plantar 3 sementes',     icon: '\u{1F331}', target: 3, key: 'plantsPlanted', reward: 15, done: false },
+    { id: 'm2', title: 'Regar 5 plantas',         icon: '\u{1F4A7}', target: 5, key: 'watered',       reward: 10, done: false },
+    { id: 'm3', title: 'Acertar 3 atividades',    icon: '\u{1F4DA}', target: 3, key: 'quizCorrect',   reward: 20, done: false },
+    { id: 'm4', title: 'Colher 2 alimentos',      icon: '\u{1F33E}', target: 2, key: 'plantsHarvested',reward: 15, done: false },
+  ];
+}
+
+// ===== AUDIO =====
+let audioCtx = null;
+function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+
+function playTone(freq, dur, type='sine', vol=0.1) {
+  if (!state.soundOn) return;
+  try {
+    initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type; osc.frequency.value = freq;
+    gain.gain.value = vol;
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + dur);
+  } catch(e) {}
+}
+
+function soundPlant()   { playTone(523, 0.2); setTimeout(() => playTone(659, 0.2), 100); }
+function soundWater()   { playTone(392, 0.3, 'sine', 0.08); }
+function soundHarvest() { playTone(523, 0.15); setTimeout(() => playTone(659, 0.15), 80); setTimeout(() => playTone(784, 0.2), 160); }
+function soundCorrect() { playTone(523, 0.1); setTimeout(() => playTone(784, 0.2), 100); }
+function soundWrong()   { playTone(200, 0.3, 'triangle', 0.08); }
+function soundLevelUp() { [523,587,659,784].forEach((f,i) => setTimeout(() => playTone(f, 0.2, 'sine', 0.12), i*120)); }
+function soundClick()   { playTone(880, 0.05, 'sine', 0.05); }
+
+// ===== NARRATION =====
+function speak(text) {
+  if (!state.narrationOn) return;
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'pt-BR'; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  }
+}
+
+// ===== TOAST =====
+function showGameToast(msg) {
+  const t = document.getElementById('game-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  speak(msg);
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== GAME NAVIGATION =====
+function gameToggleScreen(name) {
+  document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('gscreen-' + name).classList.add('active');
+  document.querySelectorAll('.game-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.screen === name);
+  });
+  soundClick();
+  if (name === 'shop') renderShop();
+  if (name === 'missions') renderMissions();
+  if (name === 'medals') renderMedals();
+}
+
+// ===== START GAME =====
+function startGame() {
+  const nameInput = document.getElementById('player-name');
+  state.name = nameInput.value.trim() || 'Estudante';
+  document.getElementById('game-welcome').style.display = 'none';
+  document.getElementById('game-ui').style.display = 'block';
+  generateMissions();
+  renderGarden();
+  renderShop();
+  renderMissions();
+  renderMedals();
+  updateStats();
+  showGameToast('Bem-vindo(a), ' + state.name + '!');
+  setInterval(updateGrowth, 1000);
+  loadGame();
+}
+
+// ===== SAVE / LOAD =====
+function saveGame() {
+  const save = { ...state, plots: state.plots.map(p => p ? { ...p } : null) };
+  try { localStorage.setItem('colheita_feliz_save', JSON.stringify(save)); } catch(e) {}
+}
+
+function loadGame() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('colheita_feliz_save'));
+    if (saved && saved.name) {
+      Object.assign(state, saved);
+      state.plots.forEach((p) => {
+        if (p && !p.ready) {
+          p.plantedAt = Date.now() - (SEEDS[p.type].growTime * (p.progress || 0));
+        }
+      });
+      updateStats();
+      renderGarden();
+    }
+  } catch(e) {}
+}
+
+function resetGame() {
+  if (confirm('Tem certeza que deseja reiniciar o jogo? Todo progresso ser\u00e1 perdido.')) {
+    localStorage.removeItem('colheita_feliz_save');
+    location.reload();
+  }
+}
+
+// ===== STATS =====
+function updateStats() {
+  document.getElementById('stat-level').textContent = state.level;
+  document.getElementById('stat-coins').textContent = state.coins;
+  document.getElementById('stat-xp').textContent = state.xp;
+  document.getElementById('stat-xp-max').textContent = state.xpToNext;
+  saveGame();
+}
+
+function addXP(amount) {
+  state.xp += amount;
+  while (state.xp >= state.xpToNext) {
+    state.xp -= state.xpToNext;
+    state.level++;
+    state.xpToNext = Math.floor(state.xpToNext * 1.5);
+    if (state.level === 2 && state.plots.length < 9) state.plots.push(null);
+    if (state.level === 3 && state.plots.length < 12) while (state.plots.length < 12) state.plots.push(null);
+    if (state.level >= 4 && state.plots.length < 16) while (state.plots.length < 16) state.plots.push(null);
+    soundLevelUp();
+    showLevelUp();
+    renderGarden();
+  }
+  updateStats();
+  checkMedals();
+}
+
+function showLevelUp() {
+  document.getElementById('levelup-text').textContent = state.name + ' subiu para o n\u00edvel ' + state.level + '!';
+  document.getElementById('levelup-overlay').classList.add('active');
+  speak('Parab\u00e9ns! Voc\u00ea subiu para o n\u00edvel ' + state.level);
+}
+function closeLevelUp() { document.getElementById('levelup-overlay').classList.remove('active'); }
+
+// ===== TOOLS =====
+function selectTool(tool) {
+  state.tool = tool;
+  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tool-' + tool).classList.add('active');
+  const tips = {
+    water: 'Clique em uma planta para regar!',
+    harvest: 'Clique em uma planta pronta para colher!',
+    compost: 'Clique em uma planta para adubar e acelerar!'
+  };
+  document.getElementById('garden-tip').textContent = tips[tool];
+  soundClick();
+}
+
+// ===== GARDEN =====
+function renderGarden() {
+  const grid = document.getElementById('garden-grid');
+  grid.innerHTML = '';
+  const cols = state.plots.length <= 9 ? 3 : 4;
+  grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+  state.plots.forEach((plot, i) => {
+    const div = document.createElement('div');
+    div.className = 'plot' + (plot ? '' : ' empty');
+    div.setAttribute('role', 'button');
+    div.setAttribute('tabindex', '0');
+
+    if (plot) {
+      const seed = SEEDS[plot.type];
+      const progress = plot.ready ? 1 : Math.min(1, (Date.now() - plot.plantedAt) / seed.growTime);
+      const stageIdx = plot.ready ? 2 : (progress < 0.5 ? 0 : 1);
+
+      div.innerHTML = `
+        <span class="plant-emoji">${seed.stages[stageIdx]}</span>
+        <span class="plant-stage">${plot.ready ? 'Pronto!' : seed.name}</span>
+        ${!plot.ready ? `<div class="progress-bar"><div class="fill" style="width:${progress*100}%"></div></div>` : ''}
+        ${plot.needsWater ? '<span class="water-indicator">\u{1F4A7}</span>' : ''}
+      `;
+      div.setAttribute('aria-label', seed.name + (plot.ready ? ' pronto para colher' : ` crescendo ${Math.round(progress*100)}%`));
+    } else {
+      div.setAttribute('aria-label', 'Canteiro vazio, clique para plantar');
+    }
+
+    div.addEventListener('click', () => onPlotClick(i));
+    div.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlotClick(i); } });
+    grid.appendChild(div);
+  });
+}
+
+function onPlotClick(index) {
+  const plot = state.plots[index];
+  if (!plot) { openPlantModal(index); return; }
+  if (state.tool === 'water' && !plot.ready) waterPlant(index);
+  else if (state.tool === 'harvest' && plot.ready) harvestPlant(index);
+  else if (state.tool === 'compost' && !plot.ready) compostPlant(index);
+  else if (plot.ready) showGameToast('Selecione a ferramenta "Colher" para colher esta planta!');
+}
+
+function waterPlant(index) {
+  const plot = state.plots[index];
+  if (!plot || plot.ready) return;
+  const seed = SEEDS[plot.type];
+  plot.plantedAt -= seed.growTime * 0.2;
+  plot.needsWater = false;
+  state.watered++;
+  soundWater();
+  showGameToast('Planta regada! +Crescimento');
+  renderGarden(); updateStats(); checkMissions();
+  if (Math.random() < 0.3) setTimeout(() => openQuiz(), 600);
+}
+
+function compostPlant(index) {
+  const plot = state.plots[index];
+  if (!plot || plot.ready) return;
+  plot.plantedAt -= SEEDS[plot.type].growTime * 0.3;
+  state.composted++;
+  soundPlant();
+  showGameToast('Adubo aplicado! Crescimento acelerado!');
+  renderGarden(); updateStats(); checkMedals();
+  if (Math.random() < 0.5) setTimeout(() => openQuiz(), 600);
+}
+
+function harvestPlant(index) {
+  const plot = state.plots[index];
+  if (!plot || !plot.ready) return;
+  const seed = SEEDS[plot.type];
+  state.coins += seed.coinReward;
+  state.plantsHarvested++;
+  state.harvested[plot.type] = (state.harvested[plot.type] || 0) + 1;
+  state.plots[index] = null;
+  soundHarvest();
+  addXP(seed.xp);
+  showGameToast(`Colheu ${seed.name}! +${seed.coinReward} moedas, +${seed.xp} XP`);
+  renderGarden(); checkMissions(); checkMedals();
+}
+
+function plantSeed(index, type) {
+  const seed = SEEDS[type];
+  if (!state.inventory[type] || state.inventory[type] <= 0) {
+    showGameToast('Voc\u00ea n\u00e3o tem sementes de ' + seed.name + '! Compre na loja.');
+    return;
+  }
+  state.inventory[type]--;
+  state.plots[index] = { type, plantedAt: Date.now(), ready: false, needsWater: true };
+  state.plantsPlanted++;
+  soundPlant();
+  showGameToast(`Plantou ${seed.name}!`);
+  renderGarden(); updateStats(); checkMissions(); checkMedals();
+  setTimeout(() => openQuiz(), 800);
+}
+
+function updateGrowth() {
+  let changed = false;
+  state.plots.forEach((plot) => {
+    if (plot && !plot.ready) {
+      if (Date.now() - plot.plantedAt >= SEEDS[plot.type].growTime) {
+        plot.ready = true;
+        changed = true;
+        showGameToast(SEEDS[plot.type].name + ' est\u00e1 pronto para colher!');
+        soundHarvest();
+      }
+      if (!plot.needsWater && Math.random() < 0.003) plot.needsWater = true;
+    }
+  });
+  if (changed || Math.random() < 0.1) renderGarden();
+}
+
+// ===== PLANT MODAL =====
+let pendingPlotIndex = -1;
+
+function openPlantModal(index) {
+  pendingPlotIndex = index;
+  const grid = document.getElementById('plant-select-grid');
+  grid.innerHTML = '';
+  Object.entries(SEEDS).filter(([, seed]) => state.level >= seed.levelReq).forEach(([key, seed]) => {
+    const count = state.inventory[key] || 0;
+    const card = document.createElement('div');
+    card.className = 'seed-card' + (count <= 0 ? ' locked' : '');
+    card.innerHTML = `<div class="emoji">${seed.stages[2]}</div><div class="name">${seed.name}</div><div class="info">Tem: ${count} sementes</div>`;
+    if (count > 0) card.addEventListener('click', () => { plantSeed(pendingPlotIndex, key); closePlantModal(); });
+    grid.appendChild(card);
+  });
+  document.getElementById('plant-modal').classList.add('active');
+  soundClick();
+}
+function closePlantModal() { document.getElementById('plant-modal').classList.remove('active'); pendingPlotIndex = -1; }
+
+// ===== SHOP =====
+function renderShop() {
+  const grid = document.getElementById('shop-grid');
+  grid.innerHTML = '';
+  Object.entries(SEEDS).forEach(([key, seed]) => {
+    const locked = state.level < seed.levelReq;
+    const card = document.createElement('div');
+    card.className = 'seed-card' + (locked ? ' locked' : '');
+    card.innerHTML = `
+      <div class="emoji">${seed.stages[2]}</div>
+      <div class="name">${seed.name}</div>
+      <div class="info">${locked ? 'N\u00edvel ' + seed.levelReq + ' necess\u00e1rio' : 'Voc\u00ea tem: ' + (state.inventory[key] || 0)}</div>
+      <div class="info">Recompensa: ${seed.coinReward} moedas + ${seed.xp} XP</div>
+      <div class="price">\u{1FA99} ${seed.price} moedas</div>
+    `;
+    if (!locked) card.addEventListener('click', () => buySeed(key));
+    grid.appendChild(card);
+  });
+}
+
+function buySeed(key) {
+  const seed = SEEDS[key];
+  if (state.coins < seed.price) { showGameToast('Moedas insuficientes! Fa\u00e7a atividades para ganhar mais.'); soundWrong(); return; }
+  state.coins -= seed.price;
+  state.inventory[key] = (state.inventory[key] || 0) + 1;
+  soundPlant();
+  showGameToast(`Comprou semente de ${seed.name}!`);
+  updateStats(); renderShop();
+}
+
+// ===== QUIZ =====
+let currentQuiz = null;
+
+function openQuiz() {
+  const categories = Object.keys(QUIZZES);
+  const cat = categories[Math.floor(Math.random() * categories.length)];
+  const questions = QUIZZES[cat];
+  const q = questions[Math.floor(Math.random() * questions.length)];
+
+  currentQuiz = { ...q, category: cat };
+  document.getElementById('quiz-category').textContent = CATEGORY_NAMES[cat];
+  document.getElementById('quiz-question').textContent = q.q;
+  document.getElementById('quiz-feedback').classList.remove('show');
+  document.getElementById('quiz-next-btn').style.display = 'none';
+
+  const optsDiv = document.getElementById('quiz-options');
+  optsDiv.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerQuiz(i, btn));
+    optsDiv.appendChild(btn);
+  });
+  document.getElementById('quiz-modal').classList.add('active');
+  speak(q.q);
+}
+
+function answerQuiz(index, btn) {
+  if (!currentQuiz) return;
+  const correct = index === currentQuiz.ans;
+  const feedback = document.getElementById('quiz-feedback');
+  document.querySelectorAll('.quiz-option').forEach((b, i) => {
+    b.style.pointerEvents = 'none';
+    if (i === currentQuiz.ans) b.classList.add('correct');
+  });
+  state.quizTotal++;
+  if (correct) {
+    btn.classList.add('correct');
+    feedback.className = 'quiz-feedback show success';
+    feedback.textContent = 'Parab\u00e9ns! Resposta correta! +10 moedas +5 XP';
+    state.quizCorrect++;
+    state.coins += 10;
+    addXP(5);
+    soundCorrect();
+    speak('Parab\u00e9ns! Resposta correta!');
+  } else {
+    btn.classList.add('wrong');
+    feedback.className = 'quiz-feedback show fail';
+    feedback.textContent = 'Quase l\u00e1! A resposta certa era: ' + currentQuiz.opts[currentQuiz.ans];
+    soundWrong();
+    speak('Quase! A resposta certa era: ' + currentQuiz.opts[currentQuiz.ans]);
+  }
+  document.getElementById('quiz-next-btn').style.display = 'inline-block';
+  updateStats(); checkMissions(); checkMedals();
+}
+
+function closeQuiz() { document.getElementById('quiz-modal').classList.remove('active'); currentQuiz = null; }
+
+// ===== MISSIONS =====
+function renderMissions() {
+  const list = document.getElementById('missions-list');
+  list.innerHTML = '';
+  dailyMissions.forEach(m => {
+    const current = state[m.key] || 0;
+    const progress = Math.min(1, current / m.target);
+    const done = progress >= 1;
+    if (done && !m.done) {
+      m.done = true; state.coins += m.reward; state.missionsCompleted++;
+      showGameToast(`Miss\u00e3o completa! +${m.reward} moedas`);
+      updateStats();
+    }
+    const card = document.createElement('div');
+    card.className = 'mission-card' + (done ? ' completed' : '');
+    card.innerHTML = `
+      <span class="mission-icon">${m.icon}</span>
+      <div class="mission-info">
+        <div class="mission-title">${m.title}</div>
+        <div class="mission-desc">${Math.min(current, m.target)}/${m.target} ${done ? '- Completa!' : ''}</div>
+        <div class="mission-progress"><div class="fill" style="width:${progress*100}%"></div></div>
+      </div>
+      <span class="mission-reward">\u{1FA99} ${m.reward}</span>
+    `;
+    list.appendChild(card);
+  });
+}
+function checkMissions() { renderMissions(); }
+
+// ===== MEDALS =====
+function renderMedals() {
+  const grid = document.getElementById('medals-grid');
+  grid.innerHTML = '';
+  MEDALS.forEach(m => {
+    const unlocked = m.check(state);
+    if (unlocked && !state.unlockedMedals.includes(m.id)) {
+      state.unlockedMedals.push(m.id);
+      showGameToast('Nova medalha: ' + m.name + '!');
+    }
+    const card = document.createElement('div');
+    card.className = 'medal-card' + (unlocked ? '' : ' locked');
+    card.innerHTML = `
+      <div class="medal-icon">${m.icon}</div>
+      <div class="medal-name">${m.name}</div>
+      <div style="font-size:11px;color:var(--text-500);margin-top:3px;">${unlocked ? m.desc : '???'}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+function checkMedals() { renderMedals(); }
+
+// ===== SETTINGS =====
+function toggleSound() { state.soundOn = document.getElementById('setting-sound').checked; saveGame(); }
+function toggleNarration() {
+  state.narrationOn = document.getElementById('setting-narration').checked;
+  if (state.narrationOn) speak('Narra\u00e7\u00e3o ativada!');
+  saveGame();
+}
+function toggleBigText() {
+  const big = document.getElementById('setting-bigtext').checked;
+  document.documentElement.style.setProperty('--font-size-game', big ? '22px' : '18px');
+  document.documentElement.style.setProperty('--font-size-game-lg', big ? '28px' : '22px');
+  document.documentElement.style.setProperty('--font-size-game-xl', big ? '34px' : '28px');
+  saveGame();
+}
+function toggleReduceMotion() {
+  if (document.getElementById('setting-reducemotion').checked) {
+    document.querySelectorAll('.mascot').forEach(e => e.style.animation = 'none');
+  }
+  saveGame();
+}
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { closeQuiz(); closePlantModal(); closeLevelUp(); }
+});
+
+document.getElementById('player-name').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') startGame();
+});
+</script>
+</body>
+</html>
